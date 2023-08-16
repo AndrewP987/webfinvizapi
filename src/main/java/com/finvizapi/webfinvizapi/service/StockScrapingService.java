@@ -15,15 +15,98 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Service
 public class StockScrapingService {
 
-    static String baseUrl = "https://finviz.com/quote.ashx?t=%s&p=d";
+    public static void main(String[] args) {
+        // ArrayList<String> stockNames = StockScrapingService.getSignalLeaders();
+        ArrayList<String> stockNames = StockScrapingService.getSignalLosers();
+    }
 
-    static ArrayList<String> writeTableDataToJsonFile(String ticker) {
+    private static final Logger LOG = Logger.getLogger(StockScrapingService.class.getName());
+
+    static String baseStockURL = "https://finviz.com/quote.ashx?t=%s&p=d";
+    static String frontPageURL = "https://finviz.com/";
+
+    static synchronized ArrayList<String> getSignalLosers() {
         ArrayList<String> res = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect(String.format(baseUrl, ticker)).get();
+            Document doc = Jsoup.connect(frontPageURL).get();
+            Element table = doc.getElementById("js-signals_2");
+            Elements rows = table.select("tr");
+
+            for (int currRow = 1; currRow < rows.size(); currRow++) {
+                Element row = rows.get(currRow);
+                Elements cells = row.select("td");
+
+                String currTicker = cells.get(0).select("a").last().text();
+                String tickerLast = cells.get(1).text();
+                String tickerChange = cells.get(2).text();
+                String tickerVolume = cells.get(3).text();
+                String tickerSignal = cells.get(5).select("a").text();
+
+                System.out.println("currTicker: " + currTicker);
+                System.out.println("tickerLast: " + tickerLast);
+                System.out.println("tickerChange: " + tickerChange);
+                System.out.println("tickerVolume: " + tickerVolume);
+                System.out.println("tickerSignal: " + tickerSignal);
+                System.out.println("\n");
+
+                res.add(currTicker);
+            }
+
+            return res;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.warning("Error fetching stock data or creating JSON: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    static synchronized ArrayList<String> getSignalLeaders() {
+        ArrayList<String> res = new ArrayList<>();
+        try {
+            Document doc = Jsoup.connect(frontPageURL).get();
+            Element table = doc.getElementsByClass("t-home-table table-empty-rounded-separate").first();
+            Elements rows = table.select("tr");
+
+            for (int currRow = 1; currRow < rows.size(); currRow++) {
+                Element row = rows.get(currRow);
+                Elements cells = row.select("td");
+
+                String currTicker = cells.get(0).select("a").last().text();
+                String tickerLast = cells.get(1).text();
+                String tickerChange = cells.get(2).text();
+                String tickerVolume = cells.get(3).text();
+                String tickerSignal = cells.get(5).select("a").text();
+
+                System.out.println("currTicker: " + currTicker);
+                System.out.println("tickerLast: " + tickerLast);
+                System.out.println("tickerChange: " + tickerChange);
+                System.out.println("tickerVolume: " + tickerVolume);
+                System.out.println("tickerSignal: " + tickerSignal);
+                System.out.println("\n");
+
+                res.add(currTicker);
+            }
+
+            return res;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.warning("Error fetching stock data or creating JSON: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    static synchronized ArrayList<String> writeTableDataToJsonFile(String ticker) {
+        ArrayList<String> res = new ArrayList<>();
+        try {
+            Document doc = Jsoup.connect(String.format(baseStockURL, ticker)).get();
             Elements table = doc.getElementsByClass("snapshot-table2");
             Elements rows = table.select("tr");
             int currWidth;
@@ -47,7 +130,7 @@ public class StockScrapingService {
             return res;
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error fetching stock data or creating JSON: " + e.getMessage());
+            LOG.warning("Error fetching stock data or creating JSON: " + e.getMessage());
             return new ArrayList<>();
         }
     }

@@ -3,9 +3,9 @@ package com.finvizapi.webfinvizapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.reflect.Field;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class Stock {
 
@@ -381,11 +381,6 @@ public class Stock {
         this.change = change;
     }
 
-    public static void main(String[] args) {
-        List<String> propertyNames = getPropertyNames(Stock.class);
-        System.out.println(propertyNames);
-    }
-
     public static List<String> getPropertyNames(Class<?> clazz) {
         List<String> propertyNames = new ArrayList<>();
         Field[] fields = clazz.getDeclaredFields();
@@ -402,7 +397,91 @@ public class Stock {
 
     public Stock(@JsonProperty("ticker") String ticker) {
         this.ticker = ticker;
+    }
 
+    public Stock(Stock other) {
+        this.id = other.id;
+        this.ticker = other.ticker;
+        this.index = other.index;
+        this.pe = other.pe;
+        this.epsTtm = other.epsTtm;
+        this.insiderOwn = other.insiderOwn;
+        this.shsOutstand = other.shsOutstand;
+        this.perfWeek = other.perfWeek;
+        this.marketCap = other.marketCap;
+        this.forwardPE = other.forwardPE;
+        this.epsNextY = other.epsNextY;
+        this.insiderTrans = other.insiderTrans;
+        this.shsFloat = other.shsFloat;
+        this.perfMonth = other.perfMonth;
+        this.income = other.income;
+        this.peg = other.peg;
+        this.epsNextQ = other.epsNextQ;
+        this.instOwn = other.instOwn;
+        this.shortFloatRatio = other.shortFloatRatio;
+        this.perfQuarter = other.perfQuarter;
+        this.sales = other.sales;
+        this.pS = other.pS;
+        this.epsThisY = other.epsThisY;
+        this.instTrans = other.instTrans;
+        this.shortInterest = other.shortInterest;
+        this.perfHalfY = other.perfHalfY;
+        this.bookSh = other.bookSh;
+        this.pB = other.pB;
+        this.epsNextYPercent = other.epsNextYPercent;
+        this.roa = other.roa;
+        this.targetPrice = other.targetPrice;
+        this.perfYear = other.perfYear;
+        this.cashSh = other.cashSh;
+        this.pC = other.pC;
+        this.epsPast5YPercent = other.epsPast5YPercent;
+        this.roe = other.roe;
+        this.range52W = other.range52W;
+        this.perfYTD = other.perfYTD;
+        this.dividend = other.dividend;
+        this.pFCF = other.pFCF;
+        this.epsPast5Y = other.epsPast5Y;
+        this.roi = other.roi;
+        this.high52w = other.high52w;
+        this.beta = other.beta;
+        this.dividendPercent = other.dividendPercent;
+        this.quickRatio = other.quickRatio;
+        this.salesPast5y = other.salesPast5y;
+        this.grossMargin = other.grossMargin;
+        this.low52w = other.low52w;
+        this.atr = other.atr;
+        this.employees = other.employees;
+        this.currentRatio = other.currentRatio;
+        this.salesQQ = other.salesQQ;
+        this.opMargin = other.opMargin;
+        this.rsi = other.rsi;
+        this.volatility = other.volatility;
+        this.optionable = other.optionable;
+        this.debtEquity = other.debtEquity;
+        this.epsQQ = other.epsQQ;
+        this.profitMargin = other.profitMargin;
+        this.relVolume = other.relVolume;
+        this.prevClose = other.prevClose;
+        this.shortable = other.shortable;
+        this.ltDebtEq = other.ltDebtEq;
+        this.earnings = other.earnings;
+        this.payout = other.payout;
+        this.avgVolume = other.avgVolume;
+        this.price = other.price;
+        this.recom = other.recom;
+        this.sma20 = other.sma20;
+        this.sma50 = other.sma50;
+        this.sma200 = other.sma200;
+        this.volume = other.volume;
+        this.change = other.change;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTicker() {
@@ -987,6 +1066,86 @@ public class Stock {
 
     public void setChange(String change) {
         this.change = change;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                " id='" + getId() + "'" +
+                ", ticker='" + getTicker() + "'" +
+                ", index='" + getIndex() + "'" +
+                ", pe='" + getPe() + "'" +
+                ", epsTtm='" + getEpsTtm() + "'" +
+                ", insiderOwn='" + getInsiderOwn() + "'" +
+                ", shsOutstand='" + getShsOutstand() + "'" +
+                ", perfWeek='" + getPerfWeek() + "'" +
+                ", marketCap='" + getMarketCap() + "'" +
+                ", forwardPE='" + getForwardPE() + "'" +
+                ", epsNextY='" + getEpsNextY() + "'" +
+                ", insiderTrans='" + getInsiderTrans() + "'" +
+                ", shsFloat='" + getShsFloat() + "'" +
+                ", perfMonth='" + getPerfMonth() + "'" +
+                ", income='" + getIncome() + "'" +
+                ", peg='" + getPeg() + "'" +
+                ", epsNextQ='" + getEpsNextQ() + "'" +
+                ", instOwn='" + getInstOwn() + "'" +
+                ", shortFloatRatio='" + getShortFloatRatio() + "'" +
+                ", perfQuarter='" + getPerfQuarter() + "'" +
+                ", sales='" + getSales() + "'" +
+                ", pS='" + getPS() + "'" +
+                ", epsThisY='" + getEpsThisY() + "'" +
+                ", instTrans='" + getInstTrans() + "'" +
+                ", shortInterest='" + getShortInterest() + "'" +
+                ", perfHalfY='" + getPerfHalfY() + "'" +
+                ", bookSh='" + getBookSh() + "'" +
+                ", pB='" + getPB() + "'" +
+                ", epsNextYPercent='" + getEpsNextYPercent() + "'" +
+                ", roa='" + getRoa() + "'" +
+                ", targetPrice='" + getTargetPrice() + "'" +
+                ", perfYear='" + getPerfYear() + "'" +
+                ", cashSh='" + getCashSh() + "'" +
+                ", pC='" + getPC() + "'" +
+                ", epsPast5YPercent='" + getEpsPast5YPercent() + "'" +
+                ", roe='" + getRoe() + "'" +
+                ", range52W='" + getRange52W() + "'" +
+                ", perfYTD='" + getPerfYTD() + "'" +
+                ", dividend='" + getDividend() + "'" +
+                ", pFCF='" + getPFCF() + "'" +
+                ", epsPast5Y='" + getEpsPast5Y() + "'" +
+                ", roi='" + getRoi() + "'" +
+                ", high52w='" + getHigh52w() + "'" +
+                ", beta='" + getBeta() + "'" +
+                ", dividendPercent='" + getDividendPercent() + "'" +
+                ", quickRatio='" + getQuickRatio() + "'" +
+                ", salesPast5y='" + getSalesPast5y() + "'" +
+                ", grossMargin='" + getGrossMargin() + "'" +
+                ", low52w='" + getLow52w() + "'" +
+                ", atr='" + getAtr() + "'" +
+                ", employees='" + getEmployees() + "'" +
+                ", currentRatio='" + getCurrentRatio() + "'" +
+                ", salesQQ='" + getSalesQQ() + "'" +
+                ", opMargin='" + getOpMargin() + "'" +
+                ", rsi='" + getRsi() + "'" +
+                ", volatility='" + getVolatility() + "'" +
+                ", optionable='" + getOptionable() + "'" +
+                ", debtEquity='" + getDebtEquity() + "'" +
+                ", epsQQ='" + getEpsQQ() + "'" +
+                ", profitMargin='" + getProfitMargin() + "'" +
+                ", relVolume='" + getRelVolume() + "'" +
+                ", prevClose='" + getPrevClose() + "'" +
+                ", shortable='" + getShortable() + "'" +
+                ", ltDebtEq='" + getLtDebtEq() + "'" +
+                ", earnings='" + getEarnings() + "'" +
+                ", payout='" + getPayout() + "'" +
+                ", avgVolume='" + getAvgVolume() + "'" +
+                ", price='" + getPrice() + "'" +
+                ", recom='" + getRecom() + "'" +
+                ", sma20='" + getSma20() + "'" +
+                ", sma50='" + getSma50() + "'" +
+                ", sma200='" + getSma200() + "'" +
+                ", volume='" + getVolume() + "'" +
+                ", change='" + getChange() + "'" +
+                "}";
     }
 
 }
