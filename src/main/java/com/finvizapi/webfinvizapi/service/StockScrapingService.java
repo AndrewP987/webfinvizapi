@@ -50,12 +50,12 @@ public class StockScrapingService {
                 String tickerVolume = cells.get(3).text();
                 String tickerSignal = cells.get(5).select("a").text();
 
-                System.out.println("currTicker: " + currTicker);
-                System.out.println("tickerLast: " + tickerLast);
-                System.out.println("tickerChange: " + tickerChange);
-                System.out.println("tickerVolume: " + tickerVolume);
-                System.out.println("tickerSignal: " + tickerSignal);
-                System.out.println("\n");
+                LOG.info("currTicker: " + currTicker);
+                LOG.info("tickerLast: " + tickerLast);
+                LOG.info("tickerChange: " + tickerChange);
+                LOG.info("tickerVolume: " + tickerVolume);
+                LOG.info("tickerSignal: " + tickerSignal);
+                LOG.info("\n");
 
                 res.add(currTicker);
             }
@@ -85,12 +85,12 @@ public class StockScrapingService {
                 String tickerVolume = cells.get(3).text();
                 String tickerSignal = cells.get(5).select("a").text();
 
-                System.out.println("currTicker: " + currTicker);
-                System.out.println("tickerLast: " + tickerLast);
-                System.out.println("tickerChange: " + tickerChange);
-                System.out.println("tickerVolume: " + tickerVolume);
-                System.out.println("tickerSignal: " + tickerSignal);
-                System.out.println("\n");
+                LOG.info("currTicker: " + currTicker);
+                LOG.info("tickerLast: " + tickerLast);
+                LOG.info("tickerChange: " + tickerChange);
+                LOG.info("tickerVolume: " + tickerVolume);
+                LOG.info("tickerSignal: " + tickerSignal);
+                LOG.info("\n");
 
                 res.add(currTicker);
             }
