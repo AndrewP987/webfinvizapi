@@ -1,6 +1,6 @@
 webfinvizapi 
 ##########
-*Unofficial Python API for FinViz*
+*Unofficial Spring API for FinViz*
 
 .. image:: https://img.shields.io/badge/java-11%2B-yellowgreen?stlye=flat&logo=Java
     :target: https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html
