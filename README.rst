@@ -42,3 +42,4 @@ In a world where information is paramount, Finviz stands out as a beacon of insi
 Disclaimer
 -----------
 *Using the library to acquire data from FinViz is against their Terms of Service and robots.txt. Use it responsibly and at your own risk. This library is built purely for educational purposes.*
+*Do not use this library for any reason other than educational purposes. If you do so, you are the only person liable.*
