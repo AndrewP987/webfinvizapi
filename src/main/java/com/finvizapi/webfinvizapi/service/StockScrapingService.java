@@ -2,6 +2,7 @@ package com.finvizapi.webfinvizapi.service;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -19,32 +20,10 @@ public class StockScrapingService {
 
     static String baseUrl = "https://finviz.com/quote.ashx?t=%s&p=d";
 
-    private String ticker;
-    private String stockUrl;
-    private HashMap<String, String> stockValues;
-
-    // public StockScrapingService(String ticker) {
-    //     this.ticker = ticker;
-    //     this.stockValues = new HashMap<>();
-    //     this.stockUrl = String.format(baseUrl, this.ticker);
-    //     // this.stockValues = this.getTableData();
-    //     for (Entry<String, String> entry : this.stockValues.entrySet()) {
-    //         System.out.println("Key: " + entry.getKey() + " Value: " + entry.getValue());
-    //     }
-    // }
-
-    public String getTicker() {
-        return this.ticker;
-    }
-
-    public String getStockUrl() {
-        return this.stockUrl;
-    }
-
-    private void writeTableDataToJsonFile(String filePath) {
-        HashMap<String, String> res = new HashMap<>();
+    static ArrayList<String> writeTableDataToJsonFile(String ticker) {
+        ArrayList<String> res = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect(this.getStockUrl()).get();
+            Document doc = Jsoup.connect(String.format(baseUrl, ticker)).get();
             Elements table = doc.getElementsByClass("snapshot-table2");
             Elements rows = table.select("tr");
             int currWidth;
@@ -59,19 +38,18 @@ public class StockScrapingService {
                         currHeader.append(cell.text());
                     } else if (currWidth == 8) {
                         currValue.append(cell.text());
-                        System.out.println("currHeader: " + currHeader + " ,currValue: " + currValue);
-                        res.put(currHeader.toString(), currValue.toString());
+                        res.add(currValue.toString());
                         currHeader.setLength(0);
                         currValue.setLength(0);
                     }
                 }
             }
-
+            return res;
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error fetching stock data or creating JSON: " + e.getMessage());
+            return new ArrayList<>();
         }
     }
-
 
 }

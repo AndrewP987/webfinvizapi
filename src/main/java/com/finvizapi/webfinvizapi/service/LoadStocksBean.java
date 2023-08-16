@@ -8,6 +8,6 @@ public class LoadStocksBean implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         // Call the method to generate the JSON file
-        LoadStocks.generateStockTickerJson(("/Users/andrewphotinakis/Documents/FinvizAPI/webfinvizapi/src/main/data/stocks.json"));
+        LoadStocks.generateStockTickerJson(("./webfinvizapi/src/main/data/stocks.json"));
     }
 }

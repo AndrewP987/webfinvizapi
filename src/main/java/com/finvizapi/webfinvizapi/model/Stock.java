@@ -3,6 +3,9 @@ package com.finvizapi.webfinvizapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.lang.reflect.Field;
+
 
 public class Stock {
 
@@ -376,6 +379,25 @@ public class Stock {
         this.sma200 = sma200;
         this.volume = volume;
         this.change = change;
+    }
+
+    public static void main(String[] args) {
+        List<String> propertyNames = getPropertyNames(Stock.class);
+        System.out.println(propertyNames);
+    }
+
+    public static List<String> getPropertyNames(Class<?> clazz) {
+        List<String> propertyNames = new ArrayList<>();
+        Field[] fields = clazz.getDeclaredFields();
+
+        for (Field field : fields) {
+            JsonProperty jsonProperty = field.getAnnotation(JsonProperty.class);
+            if (jsonProperty != null) {
+                propertyNames.add(jsonProperty.value());
+            }
+        }
+
+        return propertyNames;
     }
 
     public Stock(@JsonProperty("ticker") String ticker) {
