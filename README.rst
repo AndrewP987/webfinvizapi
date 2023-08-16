@@ -7,3 +7,8 @@ webfinvizapi
 
 .. image:: https://img.shields.io/badge/maven-3.9.4-blue.svg
     :target: https://maven.apache.org/docs/3.9.4/release-notes.html
+
+
+Disclaimer
+-----------
+*Using the library to acquire data from FinViz is against their Terms of Service and robots.txt. Use it responsibly and at your own risk. This library is built purely for educational purposes.*
