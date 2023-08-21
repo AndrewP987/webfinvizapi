@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finvizapi.webfinvizapi.model.SignalLeader;
+import com.finvizapi.webfinvizapi.model.SignalLoser;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +26,7 @@ import java.util.regex.Pattern;
 public class StockScrapingService {
 
     // public static void main(String[] args) {
-    // ArrayList<String> stockNames = StockScrapingService.getSignalLeaders();
+    // // ArrayList<String> stockNames = StockScrapingService.getSignalLeaders();
     // ArrayList<SignalLeader> stockNames = StockScrapingService.getSignalLeaders();
     // }
 
@@ -34,8 +35,8 @@ public class StockScrapingService {
     static String baseStockURL = "https://finviz.com/quote.ashx?t=%s&p=d";
     static String frontPageURL = "https://finviz.com/";
 
-    public static synchronized ArrayList<SignalLeader> getSignalLosers() {
-        ArrayList<SignalLeader> res = new ArrayList<>();
+    public static synchronized ArrayList<SignalLoser> getSignalLosers() {
+        ArrayList<SignalLoser> res = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(frontPageURL).get();
             Element table = doc.getElementById("js-signals_2");
@@ -50,7 +51,7 @@ public class StockScrapingService {
                 String tickerChange = cells.get(2).text();
                 String tickerVolume = cells.get(3).text();
                 String tickerSignal = cells.get(5).select("a").text();
-                SignalLeader loser = new SignalLeader(currRow, currTicker, tickerLast, tickerChange, tickerVolume,
+                SignalLoser loser = new SignalLoser(currRow, currTicker, tickerLast, tickerChange, tickerVolume,
                         tickerSignal);
 
                 res.add(loser);
@@ -79,10 +80,12 @@ public class StockScrapingService {
                 String tickerChange = cells.get(2).text();
                 String tickerVolume = cells.get(3).text();
                 String tickerSignal = cells.get(5).select("a").text();
+
                 SignalLeader leader = new SignalLeader(currRow, currTicker, tickerLast, tickerChange, tickerVolume,
                         tickerSignal);
+                res.add(leader);
             }
-            
+
             return res;
         } catch (Exception e) {
             e.printStackTrace();

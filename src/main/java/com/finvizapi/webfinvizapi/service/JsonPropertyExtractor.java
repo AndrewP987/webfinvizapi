@@ -8,17 +8,15 @@ import java.util.List;
 
 public class JsonPropertyExtractor {
 
-    public static ArrayList<String> getPropertyNames(Class<?> clazz) {
+    public synchronized static ArrayList<String> getPropertyNames(Class<?> clazz) {
         ArrayList<String> propertyNames = new ArrayList<>();
         Field[] fields = clazz.getDeclaredFields();
-
         for (Field field : fields) {
             JsonProperty jsonProperty = field.getAnnotation(JsonProperty.class);
             if (jsonProperty != null) {
                 propertyNames.add(jsonProperty.value());
             }
         }
-
         return propertyNames;
     }
 
