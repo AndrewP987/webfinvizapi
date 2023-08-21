@@ -36,5 +36,5 @@ build/
 *.DS_Store
 
 
-.gitignore
-src/main/java/com/finvizapi/webfinvizapi/model/UserAgent.java
+!*.gitignore
+!**src/main/java/com/finvizapi/webfinvizapi/model/UserAgent.java
