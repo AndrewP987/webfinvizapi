@@ -15,7 +15,7 @@ public class SignalLoser {
     @JsonProperty("ticker")
     private String ticker;
 
-    @JsonProperty("last")
+    @JsonProperty("lastPrice")
     private String lastPrice;
 
     @JsonProperty("change")

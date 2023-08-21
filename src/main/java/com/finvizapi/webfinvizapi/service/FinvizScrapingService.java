@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finvizapi.webfinvizapi.model.SignalLeader;
 import com.finvizapi.webfinvizapi.model.SignalLoser;
+import com.finvizapi.webfinvizapi.model.UserAgent;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +29,8 @@ public class FinvizScrapingService {
 
     // public static void main(String[] args) {
     // // ArrayList<String> stockNames = StockScrapingService.getSignalLeaders();
-    // ArrayList<SignalLeader> stockNames = StockScrapingService.getSignalLeaders();
+    // ArrayList<String> stockNames =
+    // StockScrapingService.readStockTableAndReturnAllTableValues();
     // }
 
     private static final Logger LOG = Logger.getLogger(FinvizScrapingService.class.getName());
@@ -97,7 +100,7 @@ public class FinvizScrapingService {
     public static synchronized ArrayList<String> readStockTableAndReturnAllTableValues(String ticker) {
         ArrayList<String> res = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect(String.format(baseStockURL, ticker)).get();
+            Document doc = Jsoup.connect(String.format(baseStockURL, ticker)).userAgent(UserAgent.getUserAgent()).get();
             Elements table = doc.getElementsByClass("snapshot-table2");
             Elements rows = table.select("tr");
             int currWidth;
@@ -119,19 +122,25 @@ public class FinvizScrapingService {
                 }
             }
             return res;
+        } catch (HttpStatusException e) {
+            if (e.getStatusCode() == 429) {
+                LOG.warning("Rate limited for ticker: " + ticker + ". Retrying after 5 seconds.");
+                try {
+                    Thread.sleep(5000); // Sleep for 5 seconds before retrying
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+                // Retry the request
+                return readStockTableAndReturnAllTableValues(ticker);
+            } else {
+                e.printStackTrace();
+                LOG.warning("Error fetching stock data: " + e.getMessage());
+                return new ArrayList<>();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             LOG.warning("Error fetching stock data or creating JSON: " + e.getMessage());
             return new ArrayList<>();
         }
     }
-
-    // LOG.info("\ncurrRow: " + currRow +
-    // "\ncurrTicker: " + currTicker +
-    // "\ntickerLast: " + tickerLast +
-    // "\ntickerChange: " + tickerChange +
-    // "\ntickerVolume: " + tickerVolume +
-    // "\ntickerSignal: " + tickerSignal +
-    // "\n");
-
 }

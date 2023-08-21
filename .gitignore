@@ -31,6 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
-src/main/data/stocks.json
+./webfinvizapi/src/main/data/*
 
 *.DS_Store
+
+
+.gitignore
+src/main/java/com/finvizapi/webfinvizapi/model/UserAgent.java

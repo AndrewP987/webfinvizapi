@@ -10,4 +10,8 @@ public class LoadStocksBean implements InitializingBean {
         // Call the method to generate the JSON file
         LoadStocks.generateStockTickerJson(("./webfinvizapi/src/main/data/Stocks.json"));
     }
+
+    public static void main(String[] args){
+        LoadStocks.generateStockTickerJson(("./webfinvizapi/src/main/data/Stocks.json"));
+    }
 }
