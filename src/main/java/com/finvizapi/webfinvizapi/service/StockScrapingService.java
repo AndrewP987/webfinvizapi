@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finvizapi.webfinvizapi.model.SignalLeader;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,18 +24,18 @@ import java.util.regex.Pattern;
 @Service
 public class StockScrapingService {
 
-    public static void main(String[] args) {
-        // ArrayList<String> stockNames = StockScrapingService.getSignalLeaders();
-        ArrayList<String> stockNames = StockScrapingService.getSignalLosers();
-    }
+    // public static void main(String[] args) {
+    // ArrayList<String> stockNames = StockScrapingService.getSignalLeaders();
+    // ArrayList<SignalLeader> stockNames = StockScrapingService.getSignalLeaders();
+    // }
 
     private static final Logger LOG = Logger.getLogger(StockScrapingService.class.getName());
 
     static String baseStockURL = "https://finviz.com/quote.ashx?t=%s&p=d";
     static String frontPageURL = "https://finviz.com/";
 
-    static synchronized ArrayList<String> getSignalLosers() {
-        ArrayList<String> res = new ArrayList<>();
+    public static synchronized ArrayList<SignalLeader> getSignalLosers() {
+        ArrayList<SignalLeader> res = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(frontPageURL).get();
             Element table = doc.getElementById("js-signals_2");
@@ -49,17 +50,11 @@ public class StockScrapingService {
                 String tickerChange = cells.get(2).text();
                 String tickerVolume = cells.get(3).text();
                 String tickerSignal = cells.get(5).select("a").text();
+                SignalLeader loser = new SignalLeader(currRow, currTicker, tickerLast, tickerChange, tickerVolume,
+                        tickerSignal);
 
-                LOG.info("currTicker: " + currTicker);
-                LOG.info("tickerLast: " + tickerLast);
-                LOG.info("tickerChange: " + tickerChange);
-                LOG.info("tickerVolume: " + tickerVolume);
-                LOG.info("tickerSignal: " + tickerSignal);
-                LOG.info("\n");
-
-                res.add(currTicker);
+                res.add(loser);
             }
-
             return res;
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,8 +63,8 @@ public class StockScrapingService {
         }
     }
 
-    static synchronized ArrayList<String> getSignalLeaders() {
-        ArrayList<String> res = new ArrayList<>();
+    public static synchronized ArrayList<SignalLeader> getSignalLeaders() {
+        ArrayList<SignalLeader> res = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(frontPageURL).get();
             Element table = doc.getElementsByClass("t-home-table table-empty-rounded-separate").first();
@@ -84,17 +79,10 @@ public class StockScrapingService {
                 String tickerChange = cells.get(2).text();
                 String tickerVolume = cells.get(3).text();
                 String tickerSignal = cells.get(5).select("a").text();
-
-                LOG.info("currTicker: " + currTicker);
-                LOG.info("tickerLast: " + tickerLast);
-                LOG.info("tickerChange: " + tickerChange);
-                LOG.info("tickerVolume: " + tickerVolume);
-                LOG.info("tickerSignal: " + tickerSignal);
-                LOG.info("\n");
-
-                res.add(currTicker);
+                SignalLeader leader = new SignalLeader(currRow, currTicker, tickerLast, tickerChange, tickerVolume,
+                        tickerSignal);
             }
-
+            
             return res;
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,7 +91,7 @@ public class StockScrapingService {
         }
     }
 
-    static synchronized ArrayList<String> writeTableDataToJsonFile(String ticker) {
+    public static synchronized ArrayList<String> readStockTableAndReturnAllTableValues(String ticker) {
         ArrayList<String> res = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(String.format(baseStockURL, ticker)).get();
@@ -134,5 +122,13 @@ public class StockScrapingService {
             return new ArrayList<>();
         }
     }
+
+    // LOG.info("\ncurrRow: " + currRow +
+    // "\ncurrTicker: " + currTicker +
+    // "\ntickerLast: " + tickerLast +
+    // "\ntickerChange: " + tickerChange +
+    // "\ntickerVolume: " + tickerVolume +
+    // "\ntickerSignal: " + tickerSignal +
+    // "\n");
 
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class JsonPropertyExtractor {
 
-    static ArrayList<String> getPropertyNames(Class<?> clazz) {
+    public static ArrayList<String> getPropertyNames(Class<?> clazz) {
         ArrayList<String> propertyNames = new ArrayList<>();
         Field[] fields = clazz.getDeclaredFields();
 
