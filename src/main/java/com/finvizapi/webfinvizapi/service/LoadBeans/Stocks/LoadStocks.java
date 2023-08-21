@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.finvizapi.webfinvizapi.model.Stock;
 import com.finvizapi.webfinvizapi.service.JsonPropertyExtractor;
-import com.finvizapi.webfinvizapi.service.StockScrapingService;
+import com.finvizapi.webfinvizapi.service.FinvizScrapingService;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class LoadStocks {
         try {
             for (String ticker : technologyTickers) {
                 ArrayList<String> keys = JsonPropertyExtractor.getPropertyNames(Stock.class);
-                ArrayList<String> values = StockScrapingService.readStockTableAndReturnAllTableValues(ticker);
+                ArrayList<String> values = FinvizScrapingService.readStockTableAndReturnAllTableValues(ticker);
                 ObjectNode currentStockEntry = objectMapper.createObjectNode();
                 for (int i = 0; i < values.size(); i++) {
                     if (i == 0) {

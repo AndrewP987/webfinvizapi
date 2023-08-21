@@ -23,14 +23,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class StockScrapingService {
+public class FinvizScrapingService {
 
     // public static void main(String[] args) {
     // // ArrayList<String> stockNames = StockScrapingService.getSignalLeaders();
     // ArrayList<SignalLeader> stockNames = StockScrapingService.getSignalLeaders();
     // }
 
-    private static final Logger LOG = Logger.getLogger(StockScrapingService.class.getName());
+    private static final Logger LOG = Logger.getLogger(FinvizScrapingService.class.getName());
 
     static String baseStockURL = "https://finviz.com/quote.ashx?t=%s&p=d";
     static String frontPageURL = "https://finviz.com/";

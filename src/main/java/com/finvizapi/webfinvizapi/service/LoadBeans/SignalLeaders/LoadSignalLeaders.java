@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.finvizapi.webfinvizapi.model.SignalLeader;
 import com.finvizapi.webfinvizapi.model.Stock;
-import com.finvizapi.webfinvizapi.service.StockScrapingService;
+import com.finvizapi.webfinvizapi.service.FinvizScrapingService;
 import com.finvizapi.webfinvizapi.service.LoadBeans.Stocks.LoadStocks;
 
 public class LoadSignalLeaders {
@@ -26,7 +26,7 @@ public class LoadSignalLeaders {
         ArrayNode jsonArray = objectMapper.createArrayNode();
 
         try {
-            ArrayList<SignalLeader> signalLeaders = StockScrapingService.getSignalLeaders();
+            ArrayList<SignalLeader> signalLeaders = FinvizScrapingService.getSignalLeaders();
 
             for (SignalLeader currSignalLeader : signalLeaders) {
                 jsonArray.add(currSignalLeader.JSONObject());
